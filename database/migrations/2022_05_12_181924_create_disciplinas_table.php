@@ -20,6 +20,7 @@ class CreateDisciplinasTable extends Migration
             $table->unsignedBigInteger('curso_id');
             $table->foreign('curso_id')->references('id')->on('cursos');
             $table->integer('ano');
+            $table->integer('periodo');
             $table->unsignedBigInteger('area_id');
             $table->foreign('area_id')->references('id')->on('areas');
             $table->softDeletes();

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <title>SisColetivos - Sistema de Suporte aos Coletivos Pedagógicos</title>
 
@@ -42,10 +41,10 @@
                             <span class="ps-1">Organização</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" class="dropdown-item">Eixos e Áreas</a></li>
-                            <li><a href="#" class="dropdown-item">Cursos</a></li>
-                            <li><a href="#" class="dropdown-item">Áreas de Conhecimento</a></li>
-                            <li><a href="#" class="dropdown-item">Disciplinas</a></li>
+                            <li><a href="{{route('eixos.index')}}" class="dropdown-item">Eixos e Áreas</a></li>
+                            <li><a href="{{route('cursos.index')}}" class="dropdown-item">Cursos</a></li>
+                            <li><a href="{{route('areas.index')}}" class="dropdown-item">Áreas do Conhecimento</a></li>
+                            <li><a href="{{route('disciplinas.index')}}" class="dropdown-item">Disciplinas</a></li>
                             <li><a href="#" class="dropdown-item">Professores</a></li>
                             <li><a href="#" class="dropdown-item">Anos Letivos</a></li>
                         </ul>
@@ -99,6 +98,24 @@
         @yield('conteudo')
     </div>
 </body>
+
+<div class="modal fade" tabindex="-1" id="infoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary">Mais Informações</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="infoModal" onclick="closeInfoModal()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-secondary">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-block align-content-center" onclick="closeInfoModal()">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" tabindex="-1" id="removeModal">
     <div class="modal-dialog">
@@ -166,15 +183,32 @@
         $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
     });
 
+    function showInfoModal() {
+
+        $('#infoModal').modal().find('.modal-body').html("");
+
+        for(let a=0; a< arguments.length; a++) {
+            $('#infoModal').modal().find('.modal-body').append("<b>" + arguments[a] + "</b><br>");
+        }
+
+        // $('#infoModal').modal().find('.modal-body').append(data);
+        
+        $("#infoModal").modal('show');
+    }
+
+    function closeInfoModal() {
+        $("#infoModal").modal('hide');
+    }
+
     function showRemoveModal(id, nome) {
         $('#id_remove').val(id);
         $('#removeModal').modal().find('.modal-body').html("");
         $('#removeModal').modal().find('.modal-body').append("Deseja remover o registro <b class='text-danger'>'"+nome+"'</b> ?");
-        $("#removeModal").modal('show')
+        $("#removeModal").modal('show');
     }
 
     function closeRemoveModal() {
-        $("#removeModal").modal('hide')
+        $("#removeModal").modal('hide');
     }
 
     function remove() {
