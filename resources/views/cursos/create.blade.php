@@ -76,7 +76,9 @@
                             class="form-control @if($errors->has('eixo')) is-invalid @endif" 
                         >
                             @foreach ($eixos as $item)
-                                <option value="{{$item->id}}">{{ $item->nome }}</option>
+                                <option value="{{$item->id}}" @if($item->id == old('eixo')) selected="true" @endif>
+                                    {{ $item->nome }}
+                                </option>
                             @endforeach
                         </select>
                         @if($errors->has('eixo'))

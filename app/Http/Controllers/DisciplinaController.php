@@ -7,6 +7,7 @@ use App\Models\Disciplina;
 use App\Models\Curso;
 use App\Models\Area;
 use App\Models\Ano;
+use Illuminate\Support\Facades\Log;
 
 class DisciplinaController extends Controller {
     
@@ -14,7 +15,8 @@ class DisciplinaController extends Controller {
 
         $ano = Ano::where('atual', 1)->first()->ano_letivo;
         $data = Disciplina::with(['curso', 'area'])
-            ->where('ano', $ano)->orderBy('nome')->get();
+            ->where('ano', $ano)->orderBy('curso_id')
+            ->orderBy('nome')->get();
         // return json_encode($data);
         return view('disciplinas.index', compact(['data']));   
     }
@@ -32,7 +34,7 @@ class DisciplinaController extends Controller {
         $rules = [
             'nome' => 'required|max:100|min:5',
             'carga' => 'required',
-            'ano' => 'required',
+            'ano_letivo' => 'required',
             'area' => 'required',
             'curso' => 'required',
             'periodo' => 'required'
@@ -48,13 +50,15 @@ class DisciplinaController extends Controller {
 
     public function store(Request $request) {
 
+        // Log::debug("[Antes / Validação de Entrada]");
         self::validation($request);
 
         // Registro já existente
         $total = Disciplina::where('nome', mb_strtoupper($request->nome, 'UTF-8'))
-            ->where('ano', $request->ano)
+            ->where('ano', $request->ano_letivo)
             ->where('curso_id', $request->curso)
             ->count();
+        
         if($total > 0) {
             $msg = "Disciplina";
             $link = "disciplinas.index";
@@ -66,7 +70,7 @@ class DisciplinaController extends Controller {
         if(isset($curso) && isset($area)) {
             $obj = new Disciplina();
             $obj->nome = mb_strtoupper($request->nome, 'UTF-8');   
-            $obj->ano = $request->ano;
+            $obj->ano = $request->ano_letivo;
             $obj->periodo = $request->periodo;
             $obj->carga = $request->carga;
             $obj->curso()->associate($curso);
@@ -82,37 +86,72 @@ class DisciplinaController extends Controller {
 
     public function show($id) { }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function edit($id) {
+        
+        $cursos = Curso::orderBy('nome')->get();
+        $areas = Area::orderBy('nome')->get();
+        $data = Disciplina::find($id);
+        
+        if(isset($data)) {
+            return view('disciplinas.edit', compact(['data', 'cursos', 'areas']));
+        }
+        else {
+            $msg = "Disciplina";
+            $link = "disciplina.index";
+            return view('erros.id', compact(['msg', 'link']));
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id) {
+        
+        self::validation($request);
+
+        // Registro já existente
+        $total = Disciplina::where('nome', mb_strtoupper($request->nome, 'UTF-8'))
+            ->where('ano', $request->ano_letivo)
+            ->where('curso_id', $request->curso)
+            ->count();
+        
+        if($total > 0) {
+            $msg = "Disciplina";
+            $link = "disciplinas.index";
+            return view('erros.duplicado', compact(['msg', 'link']));
+        }
+
+        $curso = Curso::find($request->curso);
+        $area = Area::find($request->area);
+        $obj = Disciplina::find($id);
+
+        if(isset($obj) && isset($curso) && isset($area)) {
+            $obj->nome = mb_strtoupper($request->nome, 'UTF-8');   
+            $obj->ano = $request->ano_letivo;
+            $obj->periodo = $request->periodo;
+            $obj->carga = $request->carga;
+            $obj->curso()->associate($curso);
+            $obj->area()->associate($area);
+            $obj->save();
+            return redirect()->route('disciplinas.index');
+        }
+
+        $msg = "Disciplina e/ou Curso e/ou Área do Conhecimento";
+        $link = "disciplinas.index";
+        return view('erros.id', compact(['msg', 'link']));
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+
+        $obj = Disciplina::find($id);
+        
+        if(isset($obj)) {
+            $obj->delete();
+        }
+        else {
+            $msg = "Disciplina";
+            $link = "disciplinas.index";
+            return view('erros.id', compact(['msg', 'link']));
+        }
+        
+        return redirect()->route('disciplinas.index');
     }
 }

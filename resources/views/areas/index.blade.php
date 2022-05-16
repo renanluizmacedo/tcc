@@ -41,7 +41,7 @@
                                 </svg>
                             </a>
                         </td>
-                        <form action="{{ route('eixos.destroy', $item->id) }}" method="POST" id="form_{{$item->id}}">
+                        <form action="{{ route('areas.destroy', $item->id) }}" method="POST" id="form_{{$item->id}}">
                             @csrf
                             @method('DELETE')
                         </form>

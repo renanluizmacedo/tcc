@@ -2,12 +2,12 @@
 
 @section('conteudo')
 
-<form action="{{ route('cursos.update', $data->id) }}" method="POST">
+<form action="{{ route('disciplinas.update', $data->id) }}" method="POST">
     @csrf
     @method('PUT')
     <div class="row">
         <div class="container my-3">
-            <h3 class="display-7 text-secondary"><b>Alterar Curso</b></h3>
+            <h3 class="display-7 text-secondary"><b>Alterar Disciplina</b></h3>
             <div class="row">
                 <div class="col" >
                     <div class="form-floating mb-3">
@@ -15,10 +15,10 @@
                             type="text" 
                             class="form-control @if($errors->has('nome')) is-invalid @endif" 
                             name="nome" 
-                            value="{{$data->nome}}"
                             placeholder="Nome"
+                            value="{{$data->nome}}"
                         />
-                        <label for="nome">Nome do Eixo/Área</label>
+                        <label for="nome">Nome da Disciplina</label>
                         @if($errors->has('nome'))
                             <div class='invalid-feedback'>
                                 {{ $errors->first('nome') }}
@@ -29,18 +29,62 @@
             </div>
             <div class="row">
                 <div class="col" >
-                    <div class="form-floating mb-3">
-                        <input 
-                            type="text" 
-                            class="form-control @if($errors->has('sigla')) is-invalid @endif" 
-                            name="sigla" 
-                            placeholder="Sigla"
-                            value="{{$data->sigla}}"
-                        />
-                        <label for="nome">Sigla do Curso</label>
-                        @if($errors->has('sigla'))
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-secondary text-white">Curso</span>
+                        <select 
+                            name="curso"
+                            class="form-select @if($errors->has('curso')) is-invalid @endif"
+                        >
+                            @foreach ($cursos as $item)
+                                <option value="{{$item->id}}" @if($item->id == $data->curso_id) selected="true" @endif>
+                                    {{ $item->nome }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('curso'))
                             <div class='invalid-feedback'>
-                                {{ $errors->first('sigla') }}
+                                {{ $errors->first('curso') }}
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" >
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-secondary text-white">Área</span>
+                        <select 
+                            name="area"
+                            class="form-select @if($errors->has('area')) is-invalid @endif"
+                        >
+                            @foreach ($areas as $item)
+                                <option value="{{$item->id}}" @if($item->id == $data->area_id) selected="true" @endif>
+                                    {{ $item->nome }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('area'))
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('area') }}
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" >
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-secondary text-white">Ano Letivo</span>
+                        <input 
+                            type="number" 
+                            class="form-control @if($errors->has('ano_letivo')) is-invalid @endif" 
+                            name="ano_letivo" 
+                            value="{{$data->ano}}"
+                            readonly
+                        />
+                        @if($errors->has('ano_letivo'))
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('ano_letivo') }}
                             </div>
                         @endif
                     </div>
@@ -52,16 +96,16 @@
                         <input 
                             type="number"
                             min="1" 
-                            max="5" 
-                            class="form-control @if($errors->has('sigla')) is-invalid @endif" 
-                            name="tempo" 
-                            placeholder="Tempo"
-                            value="{{$data->tempo}}"
+                            max="4" 
+                            class="form-control @if($errors->has('carga')) is-invalid @endif" 
+                            name="carga" 
+                            placeholder="Carga Horária"
+                            value="{{$data->carga}}"
                         />
-                        <label for="nome">Tempo do Curso (anos)</label>
-                        @if($errors->has('tempo'))
+                        <label for="carga">Carga Horária (nr. aulas)</label>
+                        @if($errors->has('carga'))
                             <div class='invalid-feedback'>
-                                {{ $errors->first('tempo') }}
+                                {{ $errors->first('carga') }}
                             </div>
                         @endif
                     </div>
@@ -69,22 +113,20 @@
             </div>
             <div class="row">
                 <div class="col" >
-                    <div class="input-group mb-3">
-                        <span class="input-group-text bg-secondary text-white">Eixo / Área</span>
-                        <select 
-                            name="eixo"
-                            class="form-select"
-                            class="form-control @if($errors->has('eixo')) is-invalid @endif" 
-                        >
-                            @foreach ($eixos as $item)
-                                <option value="{{$item->id}}" @if($item->id == $data->eixo_id) selected="true" @endif>
-                                    {{ $item->nome }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @if($errors->has('eixo'))
+                    <div class="form-floating mb-3">
+                        <input 
+                            type="number"
+                            min="1" 
+                            min="4" 
+                            class="form-control @if($errors->has('periodo')) is-invalid @endif" 
+                            name="periodo" 
+                            placeholder="Período do Curso"
+                            value="{{$data->periodo}}"
+                        />
+                        <label for="periodo">Período do Curso</label>
+                        @if($errors->has('periodo'))
                             <div class='invalid-feedback'>
-                                {{ $errors->first('eixo') }}
+                                {{ $errors->first('periodo') }}
                             </div>
                         @endif
                     </div>
@@ -92,7 +134,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <a href="{{route('cursos.index')}}" class="btn btn-secondary btn-block align-content-center">
+                    <a href="{{route('disciplinas.index')}}" class="btn btn-secondary btn-block align-content-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
                             <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
                         </svg>

@@ -32,12 +32,19 @@
                         <span class="input-group-text bg-secondary text-white">Curso</span>
                         <select 
                             name="curso"
-                            class="form-select"
+                            class="form-select @if($errors->has('curso')) is-invalid @endif"
                         >
                             @foreach ($cursos as $item)
-                                <option value="{{$item->id}}">{{ $item->nome }}</option>
+                                <option value="{{$item->id}}" @if($item->id == old('curso')) selected="true" @endif>
+                                    {{ $item->nome }}
+                                </option>
                             @endforeach
                         </select>
+                        @if($errors->has('curso'))
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('curso') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -47,10 +54,12 @@
                         <span class="input-group-text bg-secondary text-white">Área</span>
                         <select 
                             name="area"
-                            class="form-select"
+                            class="form-select @if($errors->has('area')) is-invalid @endif"
                         >
                             @foreach ($areas as $item)
-                                <option value="{{$item->id}}">{{ $item->nome }}</option>
+                                <option value="{{$item->id}}" @if($item->id == old('area')) selected="true" @endif>
+                                    {{ $item->nome }}
+                                </option>
                             @endforeach
                         </select>
                         @if($errors->has('area'))
@@ -66,12 +75,17 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text bg-secondary text-white">Ano Letivo</span>
                         <input 
-                            type="text" 
-                            class="form-control" 
-                            name="ano" 
-                            value="{{$ano}}"
-                            disabled="true"
+                            type="number" 
+                            class="form-control @if($errors->has('ano_letivo')) is-invalid @endif" 
+                            name="ano_letivo" 
+                            value="{{ $ano }}"
+                            readonly
                         />
+                        @if($errors->has('ano_letivo'))
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('ano_letivo') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -81,13 +95,13 @@
                         <input 
                             type="number"
                             min="1" 
-                            max="5" 
+                            max="4" 
                             class="form-control @if($errors->has('carga')) is-invalid @endif" 
                             name="carga" 
                             placeholder="Carga Horária"
                             value="{{old('carga')}}"
                         />
-                        <label for="nome">Carga Horária (nr. aulas)</label>
+                        <label for="carga">Carga Horária (nr. aulas)</label>
                         @if($errors->has('carga'))
                             <div class='invalid-feedback'>
                                 {{ $errors->first('carga') }}
@@ -102,13 +116,13 @@
                         <input 
                             type="number"
                             min="1" 
-                            min="5" 
+                            min="4" 
                             class="form-control @if($errors->has('periodo')) is-invalid @endif" 
                             name="periodo" 
                             placeholder="Período do Curso"
                             value="{{old('periodo')}}"
                         />
-                        <label for="nome">Período do Curso</label>
+                        <label for="periodo">Período do Curso</label>
                         @if($errors->has('periodo'))
                             <div class='invalid-feedback'>
                                 {{ $errors->first('periodo') }}
