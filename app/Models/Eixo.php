@@ -15,4 +15,8 @@ class Eixo extends Model {
     public function curso() {
         return $this->hasMany('\App\Models\Curso');
     }
+
+    public function professor() {
+        return $this->hasMany('\App\Models\Professor');
+    }
 }

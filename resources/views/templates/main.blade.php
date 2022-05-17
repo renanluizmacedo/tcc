@@ -45,7 +45,8 @@
                             <li><a href="{{route('cursos.index')}}" class="dropdown-item">Cursos</a></li>
                             <li><a href="{{route('areas.index')}}" class="dropdown-item">Áreas do Conhecimento</a></li>
                             <li><a href="{{route('disciplinas.index')}}" class="dropdown-item">Disciplinas</a></li>
-                            <li><a href="#" class="dropdown-item">Professores</a></li>
+                            <li><a href="{{route('professores.index')}}" class="dropdown-item">Professores</a></li>
+                            <li><a href="#" class="dropdown-item">Técnicos</a></li>
                             <li><a href="#" class="dropdown-item">Alunos</a></li>
                             <li><a href="#" class="dropdown-item">Anos Letivos</a></li>
                         </ul>

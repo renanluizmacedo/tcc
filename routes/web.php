@@ -20,3 +20,4 @@ Route::resource('/eixos', 'EixoController');
 Route::resource('/cursos', 'CursoController');
 Route::resource('/areas', 'AreaController');
 Route::resource('/disciplinas', 'DisciplinaController');
+Route::resource('/professores', 'ProfessorController');

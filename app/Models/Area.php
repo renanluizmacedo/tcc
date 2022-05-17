@@ -10,4 +10,8 @@ class Area extends Model {
 
     use HasFactory;
     use SoftDeletes;
+
+    public function disciplina() {
+        return $this->hasMany('\App\Models\Disciplina');
+    }
 }

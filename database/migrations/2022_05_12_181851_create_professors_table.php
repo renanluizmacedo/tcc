@@ -22,8 +22,6 @@ class CreateProfessorsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('eixo_id');
             $table->foreign('eixo_id')->references('id')->on('eixos');
-            $table->unsignedBigInteger('curso_id');
-            $table->foreign('curso_id')->references('id')->on('cursos');
             $table->softDeletes();
             $table->timestamps();
         });

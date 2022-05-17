@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 13-Maio-2022 às 18:24
+-- Tempo de geração: 17-Maio-2022 às 13:45
 -- Versão do servidor: 8.0.29-0ubuntu0.20.04.3
 -- versão do PHP: 7.4.3
 
@@ -68,6 +68,13 @@ CREATE TABLE `anos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Extraindo dados da tabela `anos`
+--
+
+INSERT INTO `anos` (`id`, `ano_letivo`, `atual`, `created_at`, `updated_at`) VALUES
+(1, 2022, 1, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -87,11 +94,11 @@ CREATE TABLE `areas` (
 --
 
 INSERT INTO `areas` (`id`, `nome`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'CIÊNCIAS HUMANAS', NULL, '2022-05-13 22:09:25', '2022-05-13 22:09:25'),
-(2, 'CIÊNCIAS DA NATUREZA', NULL, '2022-05-13 22:09:53', '2022-05-13 22:09:53'),
-(3, 'LINGUAGEM', NULL, '2022-05-13 22:10:12', '2022-05-13 22:10:12'),
-(4, 'MATEMÁTICA', NULL, '2022-05-13 22:10:26', '2022-05-13 22:10:26'),
-(5, 'FORMAÇÃO TÉCNICA', NULL, '2022-05-13 22:10:38', '2022-05-13 22:10:38');
+(1, 'CIÊNCIAS HUMANAS', NULL, '2022-05-14 01:09:25', '2022-05-14 01:09:25'),
+(2, 'CIÊNCIAS DA NATUREZA', NULL, '2022-05-14 01:09:53', '2022-05-14 01:09:53'),
+(3, 'LINGUAGEM', NULL, '2022-05-14 01:10:12', '2022-05-14 01:10:12'),
+(4, 'MATEMÁTICA', NULL, '2022-05-14 01:10:26', '2022-05-14 01:10:26'),
+(5, 'FORMAÇÃO TÉCNICA', NULL, '2022-05-14 01:10:38', '2022-05-14 01:10:38');
 
 -- --------------------------------------------------------
 
@@ -148,9 +155,9 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`id`, `nome`, `sigla`, `tempo`, `eixo_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(3, 'TÉCNICO EM MEIO AMBIENTE', 'MAMB', 4, 6, NULL, '2022-05-13 19:59:54', '2022-05-13 19:59:54'),
-(4, 'TÉCNICO EM MECÂNICA', 'MEC', 4, 7, NULL, '2022-05-13 20:00:17', '2022-05-13 20:00:17'),
-(5, 'TÉCNICO EM INFORMÁTICA', 'INFO', 4, 1, NULL, '2022-05-13 20:01:44', '2022-05-13 21:47:36');
+(3, 'TÉCNICO EM MEIO AMBIENTE', 'MAMB', 4, 6, NULL, '2022-05-13 22:59:54', '2022-05-13 22:59:54'),
+(4, 'TÉCNICO EM MECÂNICA', 'MEC', 4, 7, NULL, '2022-05-13 23:00:17', '2022-05-13 23:00:17'),
+(5, 'TÉCNICO EM INFORMÁTICA', 'INFO', 4, 1, NULL, '2022-05-13 23:01:44', '2022-05-14 00:47:36');
 
 -- --------------------------------------------------------
 
@@ -179,11 +186,21 @@ CREATE TABLE `disciplinas` (
   `carga` int NOT NULL,
   `curso_id` bigint UNSIGNED NOT NULL,
   `ano` int NOT NULL,
+  `periodo` int NOT NULL,
   `area_id` bigint UNSIGNED NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `disciplinas`
+--
+
+INSERT INTO `disciplinas` (`id`, `nome`, `carga`, `curso_id`, `ano`, `periodo`, `area_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'LINGUAGEM DE PROGRAMAÇÃO', 4, 5, 2022, 1, 5, NULL, '2022-05-14 01:33:28', '2022-05-17 00:07:10'),
+(2, 'ARQUITETURA E SISTEMAS OPERACIONAIS', 2, 5, 2022, 1, 5, NULL, '2022-05-16 23:53:31', '2022-05-16 23:53:31'),
+(4, 'MATEMÁTICA I', 2, 5, 2022, 1, 4, NULL, '2022-05-17 00:08:44', '2022-05-17 00:08:44');
 
 -- --------------------------------------------------------
 
@@ -218,13 +235,13 @@ CREATE TABLE `eixos` (
 --
 
 INSERT INTO `eixos` (`id`, `nome`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'INFORMAÇÃO E COMUNICAÇÃO', NULL, '2022-05-12 23:57:44', '2022-05-13 00:20:36'),
-(5, 'FÍSICA', NULL, '2022-05-13 01:16:39', '2022-05-13 20:39:05'),
-(6, 'RECURSOS NATURAIS', NULL, '2022-05-13 19:54:44', '2022-05-13 21:45:14'),
-(7, 'PROCESSOS INDUSTRIAIS', NULL, '2022-05-13 19:56:34', '2022-05-13 19:56:34'),
-(8, 'LINGUAGENS', NULL, '2022-05-13 19:56:53', '2022-05-13 19:56:53'),
-(9, 'MATEMÁTICA', NULL, '2022-05-13 19:57:11', '2022-05-13 19:57:11'),
-(10, 'CIÊNCIAS SOCIAIS', NULL, '2022-05-13 19:57:36', '2022-05-13 22:16:51');
+(1, 'INFORMAÇÃO E COMUNICAÇÃO', NULL, '2022-05-13 02:57:44', '2022-05-13 03:20:36'),
+(5, 'FÍSICA', NULL, '2022-05-13 04:16:39', '2022-05-13 23:39:05'),
+(6, 'RECURSOS NATURAIS', NULL, '2022-05-13 22:54:44', '2022-05-14 00:45:14'),
+(7, 'PROCESSOS INDUSTRIAIS', NULL, '2022-05-13 22:56:34', '2022-05-13 22:56:34'),
+(8, 'LINGUAGENS', NULL, '2022-05-13 22:56:53', '2022-05-13 22:56:53'),
+(9, 'MATEMÁTICA', NULL, '2022-05-13 22:57:11', '2022-05-13 22:57:11'),
+(10, 'CIÊNCIAS SOCIAIS', NULL, '2022-05-13 22:57:36', '2022-05-14 01:16:51');
 
 -- --------------------------------------------------------
 
@@ -558,13 +575,13 @@ ALTER TABLE `alunos`
 -- AUTO_INCREMENT de tabela `anos`
 --
 ALTER TABLE `anos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `areas`
 --
 ALTER TABLE `areas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `comportamentos`
@@ -576,13 +593,13 @@ ALTER TABLE `comportamentos`
 -- AUTO_INCREMENT de tabela `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `disciplinas`
 --
 ALTER TABLE `disciplinas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `eixos`

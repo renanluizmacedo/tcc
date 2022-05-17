@@ -97,7 +97,7 @@ class DisciplinaController extends Controller {
         }
         else {
             $msg = "Disciplina";
-            $link = "disciplina.index";
+            $link = "disciplinas.index";
             return view('erros.id', compact(['msg', 'link']));
         }
     }
