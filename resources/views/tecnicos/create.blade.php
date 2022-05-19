@@ -2,12 +2,11 @@
 
 @section('conteudo')
 
-<form action="{{ route('professores.update', $data->id) }}" method="POST">
+<form action="{{ route('tecnicos.store') }}" method="POST">
     @csrf
-    @method('PUT')
     <div class="row">
         <div class="container my-3">
-            <h3 class="display-7 text-secondary"><b>Alterar Professor</b></h3>
+            <h3 class="display-7 text-secondary"><b>Novo Técnico</b></h3>
             <div class="row">
                 <div class="col" >
                     <div class="form-floating mb-3">
@@ -16,9 +15,9 @@
                             class="form-control @if($errors->has('nome')) is-invalid @endif" 
                             name="nome" 
                             placeholder="Nome"
-                            value="{{$data->nome}}"
+                            value="{{old('nome')}}"
                         />
-                        <label for="nome">Nome do Professor</label>
+                        <label for="nome">Nome do Técnico</label>
                         @if($errors->has('nome'))
                             <div class='invalid-feedback'>
                                 {{ $errors->first('nome') }}
@@ -35,9 +34,9 @@
                             class="form-control @if($errors->has('email')) is-invalid @endif" 
                             name="email" 
                             placeholder="E-mail"
-                            value="{{$data->email}}"
+                            value="{{old('email')}}"
                         />
-                        <label for="email">E-mail do Professor</label>
+                        <label for="email">E-mail do Técnico</label>
                         @if($errors->has('email'))
                             <div class='invalid-feedback'>
                                 {{ $errors->first('email') }}
@@ -54,34 +53,12 @@
                             class="form-control @if($errors->has('siape')) is-invalid @endif" 
                             name="siape" 
                             placeholder="SIAPE"
-                            value="{{$data->siape}}"
+                            value="{{old('siape')}}"
                         />
-                        <label for="nome">SIAPE do Professor</label>
+                        <label for="nome">SIAPE do Técnico</label>
                         @if($errors->has('siape'))
                             <div class='invalid-feedback'>
                                 {{ $errors->first('siape') }}
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col" >
-                    <div class="input-group mb-3">
-                        <span class="input-group-text bg-secondary text-white">Eixo</span>
-                        <select 
-                            name="eixo"
-                            class="form-select @if($errors->has('eixo')) is-invalid @endif"
-                        >
-                            @foreach ($eixos as $item)
-                                <option value="{{$item->id}}" @if($item->id == $data->eixo_id) selected="true" @endif>
-                                    {{ $item->nome }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @if($errors->has('eixo'))
-                            <div class='invalid-feedback'>
-                                {{ $errors->first('eixo') }}
                             </div>
                         @endif
                     </div>
@@ -96,8 +73,8 @@
                             class="form-select @if($errors->has('tipo')) is-invalid @endif"
                         >
                             @foreach ($tipos as $item)
-                                @if($item->descricao != "TÉCNICO")
-                                    <option value="{{$item->id}}" @if($item->id == $data->user->usertype_id) selected="true" @endif>
+                                @if($item->descricao != "PROFESSOR")
+                                    <option value="{{$item->id}}" @if($item->id == old('tipo')) selected="true" @endif>
                                         {{ $item->descricao }}
                                     </option>
                                 @endif

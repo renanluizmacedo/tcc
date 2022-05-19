@@ -49,4 +49,8 @@ class User extends Authenticatable {
     public function usertype() {
         return $this->belongsTo('\App\Models\Tipousuario');
     }
+
+    public function tecnico() {
+        return $this->hasOne('\App\Models\Tecnico');
+    }
 }

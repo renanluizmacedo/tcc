@@ -49,7 +49,7 @@
                 <div class="col" >
                     <div class="form-floating mb-3">
                         <input 
-                            type="text" 
+                            type="number" 
                             class="form-control @if($errors->has('siape')) is-invalid @endif" 
                             name="siape" 
                             placeholder="SIAPE"
