@@ -46,6 +46,7 @@
                             <li><a href="{{route('areas.index')}}" class="dropdown-item">Áreas do Conhecimento</a></li>
                             <li><a href="{{route('disciplinas.index')}}" class="dropdown-item">Disciplinas</a></li>
                             <li><a href="{{route('professores.index')}}" class="dropdown-item">Professores</a></li>
+                            <li><a href="{{route('docencias.index')}}" class="dropdown-item">Docência</a></li>
                             <li><a href="{{route('tecnicos.index')}}" class="dropdown-item">Técnicos</a></li>
                             <li><a href="#" class="dropdown-item">Alunos</a></li>
                             <li><a href="#" class="dropdown-item">Anos Letivos</a></li>
@@ -149,7 +150,7 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function(){
+    /*$(document).ready(function(){
         $('.date').mask('00/00/0000');
         $('.time').mask('00:00:00');
         $('.date_time').mask('00/00/0000 00:00:00');
@@ -220,6 +221,7 @@
         document.getElementById(form).submit();
         $("#removeModal").modal('hide')
     }
+    */
 
 </script>
 

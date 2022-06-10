@@ -18,25 +18,43 @@ class DocenciaController extends Controller {
         $disciplinas = Disciplina::with(['curso'])->where('ano', $ano)
             ->orderBy('curso_id')->orderBy('nome')->get();
         $profs = Professor::orderBy('nome')->get();
-        $data = Docencia::all();
+        $data = Docencia::where('ano', $ano)->get();
 
         // return json_encode($data);
-        return view('docencias.index', compact(['data', 'profs', 'disciplinas', 'cursos']));   
+        return view('docencias.index', compact(['data', 'profs', 'disciplinas', 'cursos', 'ano']));   
     }
 
-    public function create(Request $request) {
+    public function create(Request $request) { }
 
-    }
+    public function store(Request $request) { }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function link(Request $request) {
+
+        $ano = $request->input('ano');
+        $arr = explode(" ", $request->input('ids'));
+
+        foreach($arr as $item) {
+            $ids = explode("_", $item);
+            $disciplina = Disciplina::find($ids[0]);
+            $professor = Professor::find($ids[1]);
+
+            // Verifica se professor e disciplina foram encontrados
+            if(isset($disciplina) && isset($professor)) {
+
+                // Verifica se a disciplina já possui professor vinculado - remove vinculo, caso sim
+                $vinculo = Docencia::where('disciplina_id', $ids[0])->where('ano', $ano);
+                if(isset($vinculo)) { $vinculo->delete(); }
+
+                // Cria novo vínculo discplina+professor
+                $docencias = new Docencia();
+                $docencias->ano = $ano;
+                $docencias->disciplina()->associate($disciplina);
+                $docencias->professor()->associate($professor);
+                $docencias->save();
+            }
+        }
+
+        return "($ano)";
     }
 
     /**
