@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RelatorioCursoController;
+use App\Http\Controllers\RelatorioTurmaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () { return view('index'); })->name('index');
+
+Route::get('/gerarRelatorio/{aluno}', [GerarRelatorio::class, 'gerarPDF'])->name('relatorio');
+
+Route::get('/gerarRelatorio/{aluno}', [GerarRelatorio::class, 'gerarPDF'])->name('relatorio');
+
+Route::get('/relatorioCurso', [RelatorioCursoController::class,'curso'])->name('relatorioCurso');
+Route::get('/relatorioTurma', [RelatorioTurmaController::class,'turma'])->name('relatorioTurma');
+
+
+Route::get('/gerarRelatorioCurso/{id}', [RelatorioCursoController::class,'gerarPDF'])->name('gerarRelatorioCurso');
 
 Route::resource('/eixos', 'EixoController');
 Route::resource('/cursos', 'CursoController');

@@ -18,4 +18,6 @@ class Disciplina extends Model {
     public function area() {
         return $this->belongsTo('\App\Models\Area');
     }
+
+
 }

@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Ano extends Model
 {
     use HasFactory;
+
+
 }
