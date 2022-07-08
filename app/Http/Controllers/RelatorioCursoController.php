@@ -32,13 +32,29 @@ class RelatorioCursoController extends Controller
         $pdf->loadHTML($HTML);
         return $pdf->stream($nomeCurso->sigla . "-" . $data . '.pdf');
     }
+    public function htmlInfoConceitos($infoCon){
+        $keys = array_keys($infoCon);
+        $p =  "<div><h2> Total Conceitos: </h2>";
+        
+        foreach ($keys as $k) {
 
+            $p = $p .
+                "<h3> 
+                        $k:  " . $infoCon[$k].
+                "</h3>";
+        }
+
+        $p .= "</div>";        
+        return $p;
+
+    }
     public function montarHtml($infoCurso, $curso, $idCurso)
     {
         $logo = './imgs/logoIF.png';
         $grafico = $this->gerarGrafico($idCurso);
-
         $infoTd = $this->htlmTabelaInfoCurso($infoCurso);
+        $contConceitos = $this->verificarConceitos($infoCurso);
+        $infoConceitos = $this->htmlInfoConceitos($contConceitos);
 
         $html =
             '
@@ -63,8 +79,11 @@ class RelatorioCursoController extends Controller
             ' . $infoTd . '
             </tbody>
         </table>
-        <div class ="grafico">
-        ' . $grafico . '
+
+        <div >
+            <div class = "grafico">' . $grafico . '<div/>
+            <div class ="conceitos">' . $infoConceitos . '</div>
+        
         </div>
     ';
 
@@ -104,60 +123,57 @@ class RelatorioCursoController extends Controller
 
         return $data;
     }
+    public function verificarConceitos($data)
+    {
+        $contConceitos = ["A" => 0, "B" => 0, "C" => 0, "D" => 0];
 
+        foreach ($data as $d) {
+            if ($d->conceito == 'A') {
+                $contConceitos['A']++;
+            } elseif ($d->conceito == 'B') {
+                $contConceitos['B']++;
+            } elseif ($d->conceito == 'C') {
+                $contConceitos['C']++;
+            } elseif ($d->conceito == 'D') {
+                $contConceitos['D']++;
+            }
+        };
+
+        $flagA = 0;
+        $flagB = 0;
+        $flagC = 0;
+        $flagD = 0;
+
+        for ($i = 0; $i < 4; $i++) {
+
+            if ($flagA == 0) {
+                if ($contConceitos['A'] == 0) {
+                    unset($contConceitos['A']);
+                }
+                $flagA = 1;
+            } elseif ($flagB == 0) {
+                if ($contConceitos['B'] == 0) {
+                    unset($contConceitos['B']);
+                }
+                $flagB = 1;
+            } elseif ($flagC == 0) {
+                if ($contConceitos['C'] == 0) {
+                    unset($contConceitos['C']);
+                }
+                $flagC = 1;
+            } elseif ($flagD == 0) {
+                if ($contConceitos['D'] == 0) {
+                    unset($contConceitos['D']);
+                }
+            }
+        }
+        return $contConceitos;
+    }
     public function gerarGrafico($idCurso)
     {
         $data = $this->cursoSelecionado($idCurso);
 
-
-        $contConceitos = ["A" => 0, "B" => 0, "C" => 0, "D" => 0];
-
-        function verificarConceitos($data, $contConceitos)
-        {
-            foreach ($data as $d) {
-                if ($d->conceito == 'A') {
-                    $contConceitos['A']++;
-                } elseif ($d->conceito == 'B') {
-                    $contConceitos['B']++;
-                } elseif ($d->conceito == 'C') {
-                    $contConceitos['C']++;
-                } elseif ($d->conceito == 'D') {
-                    $contConceitos['D']++;
-                }
-            };
-
-            $flagA = 0;
-            $flagB = 0;
-            $flagC = 0;
-            $flagD = 0;
-
-            for ($i = 0; $i < 4; $i++) {
-
-                if ($flagA == 0) {
-                    if ($contConceitos['A'] == 0) {
-                        unset($contConceitos['A']);
-                    }
-                    $flagA = 1;
-                } elseif ($flagB == 0) {
-                    if ($contConceitos['B'] == 0) {
-                        unset($contConceitos['B']);
-                    }
-                    $flagB = 1;
-                } elseif ($flagC == 0) {
-                    if ($contConceitos['C'] == 0) {
-                        unset($contConceitos['C']);
-                    }
-                    $flagC = 1;
-                } elseif ($flagD == 0) {
-                    if ($contConceitos['D'] == 0) {
-                        unset($contConceitos['D']);
-                    }
-                }
-            }
-            return $contConceitos;
-        }
-
-        $contConceitos = verificarConceitos($data, $contConceitos);
+        $contConceitos = $this->verificarConceitos($data);
 
         $client = new \GuzzleHttp\Client();
 

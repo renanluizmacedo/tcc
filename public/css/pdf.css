@@ -29,9 +29,16 @@
     margin-bottom: 80;
 
 }
+.conceitos {
+    display: block;
+    float: right;   
+    margin-top: 160;
+    margin-right: 40;
+}
 .grafico > img {
+    display: block;
+    float: left;   
     width: 400;
     margin-top: 100;
-    margin-left: 80;
 }
 /** aluno **/
