@@ -95,15 +95,17 @@ class RelatorioCursoController extends Controller
     }*/
     public function cursoSelecionado($idCurso)
     {
+        
         $data = Conceito::with(
-            ["disciplina" => function ($q) use ($idCurso) {
-                return $q->where('disciplinas.curso_id', '=', $idCurso);
+            [$disciplina = "disciplina" => function ($q) use ($idCurso) {
+                  return $q->where('disciplinas.curso_id', '=', $idCurso);
+
             }],
         )->with(
-            ["aluno" => function ($q) use ($idCurso) {
-                return $q->where('alunos.curso_id', '=', $idCurso);
+            [$aluno = "aluno" => function ($q) use ($idCurso) {
+                 $q->where('alunos.curso_id', '=', $idCurso);
             }],
-        )->get();
+        )->get()->where($aluno ,'!=', null)->where($disciplina ,'!=', null);
 
         return $data;
     }
